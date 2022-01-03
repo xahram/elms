@@ -44,18 +44,19 @@ insert into user (ssN, first_name, last_name, email, password, address, street, 
 insert into user (ssN, first_name, last_name, email, password, address, street, postcode, country, date_of_birth, status) values ('492-15-2801', 'Abdel', 'Knibley', 'aknibleyi@narod.ru', '7l6Xgbo', '037 Fisk Crossing', 'Riverside', 'S1', 'United Kingdom', '1990-05-11', false);
 insert into user (ssN, first_name, last_name, email, password, address, street, postcode, country, date_of_birth, status) values ('446-64-5277', 'Hy', 'Biswell', 'hbiswellj@redcross.org', 'F0utKj', '2 Homewood Street', 'Miller', '34114', 'United States', '2000-06-12', false);
 
-
 CREATE TABLE admin(
 	adminID INT UNIQUE NOT NULL,
     ACCESS VARCHAR(255) NOT NULL,
-    PRIMARY KEY(adminID)    
+    ssN VARCHAR(255) NOT NULL,
+    PRIMARY KEY(adminID),
+    FOREIGN KEY(ssN) REFERENCES user(ssN)
 );
 
-insert into admin (adminID, ACCESS) values (1, 'SUPERADMIN');
-insert into admin (adminID, ACCESS) values (2, 'ADMIN');
-insert into admin (adminID, ACCESS) values (3, 'SUPERADMIN');
-insert into admin (adminID, ACCESS) values (4, 'SUPERADMIN');
-insert into admin (adminID, ACCESS) values (5, 'SUPERADMIN');
+insert into admin (adminID, ACCESS,ssN) values (1, 'SUPERADMIN','184-97-1485');
+insert into admin (adminID, ACCESS,ssN) values (2, 'ADMIN','320-81-9224');
+insert into admin (adminID, ACCESS,ssN) values (3, 'SUPERADMIN','324-95-1453');
+insert into admin (adminID, ACCESS,ssN) values (4, 'SUPERADMIN','331-95-7368');
+insert into admin (adminID, ACCESS,ssN) values (5, 'SUPERADMIN','335-66-1833');
 
 CREATE TABLE course(
 	course_id INT UNIQUE NOT NULL,
@@ -110,27 +111,28 @@ CREATE TABLE course_lesson(
     FOREIGN KEY (course_id) REFERENCES course(course_id)
 );
 
+DROP TABLE IF EXISTS teacher;
 
 CREATE TABLE teacher(
 	`teaching_lic_id` VARCHAR(255) UNIQUE NOT NULL,
-    `teaching_rank` VARCHAR(255) NOT NULL
+    `teaching_rank` VARCHAR(255) NOT NULL,
+    ssN VARCHAR(255) NOT NULL,
+    PRIMARY KEY (teaching_lic_id),
+    FOREIGN KEY (ssN) REFERENCES user(ssN)
 );
 
-insert into teacher (teaching_lic_id, teaching_rank) values ('824-52-9404', 'ASSISTANT');
-insert into teacher (teaching_lic_id, teaching_rank) values ('622-60-7296', 'ASSISTANT');
-insert into teacher (teaching_lic_id, teaching_rank) values ('460-62-2268', 'ASSISTANT');
-insert into teacher (teaching_lic_id, teaching_rank) values ('581-96-0240', 'ASSISTANT');
-insert into teacher (teaching_lic_id, teaching_rank) values ('714-07-4407', 'LECTURER');
-insert into teacher (teaching_lic_id, teaching_rank) values ('532-79-6727', 'ASSISTANT');
-insert into teacher (teaching_lic_id, teaching_rank) values ('484-86-0885', 'ASSISTANT');
-insert into teacher (teaching_lic_id, teaching_rank) values ('423-68-7672', 'PROFESSOR');
-insert into teacher (teaching_lic_id, teaching_rank) values ('514-25-9498', 'LECTURER');
-insert into teacher (teaching_lic_id, teaching_rank) values ('613-20-6594', 'ASSISTANT');
 
+
+insert into teacher (teaching_lic_id, teaching_rank, ssN) values ('824-52-9404', 'ASSISTANT','184-97-1485');
+insert into teacher (teaching_lic_id, teaching_rank, ssN) values ('622-60-7296', 'ASSISTANT',"279-99-0163");
+insert into teacher (teaching_lic_id, teaching_rank, ssN) values ('460-62-2268', 'ASSISTANT', "456-47-0699");
+insert into teacher (teaching_lic_id, teaching_rank, ssN) values ('581-96-0240', 'ASSISTANT', '335-66-1833');
+insert into teacher (teaching_lic_id, teaching_rank, ssN) values ('714-07-4407', 'LECTURER' , '715-19-1912');
+insert into teacher (teaching_lic_id, teaching_rank, ssN) values ('532-79-6727', 'ASSISTANT' , '358-60-5424');
 
 CREATE TABLE `teacher_course`(
     course_id INT NOT NULL,
-    `teaching_lic_id` INT NOT NULL,
+    `teaching_lic_id` VARCHAR(255) NOT NULL,
 	PRIMARY KEY(course_id, teaching_lic_id),
     FOREIGN KEY (course_id) REFERENCES course(course_id),
 	FOREIGN KEY (teaching_lic_id) REFERENCES teacher(teaching_lic_id)
@@ -140,34 +142,19 @@ CREATE TABLE `teacher_course`(
 CREATE TABLE student(
 	student_id INT UNIQUE NOT NULL,
     last_degree VARCHAR(255),
-	PRIMARY KEY(student_id)
+    ssN VARCHAR(255) NOT NULL,
+	PRIMARY KEY(student_id),
+    FOREIGN KEY (ssN) references user(ssN)
 );
 
-insert into student (student_id, last_degree) values (1, ' BS Economy');
-insert into student (student_id, last_degree) values (2, 'BS Data Science');
-insert into student (student_id, last_degree) values (3, ' BS Economy');
-insert into student (student_id, last_degree) values (4, ' BS Economy');
-insert into student (student_id, last_degree) values (5, 'BS Data Science');
-insert into student (student_id, last_degree) values (6, 'BS Data Science');
-insert into student (student_id, last_degree) values (7, 'BS Data Science');
-insert into student (student_id, last_degree) values (8, 'BS Machine Learning ');
-insert into student (student_id, last_degree) values (9, 'BS Data Science');
-insert into student (student_id, last_degree) values (10, 'BS Software Engineering');
-insert into student (student_id, last_degree) values (11, 'BS Data Science');
-insert into student (student_id, last_degree) values (12, 'BS Accounting ');
-insert into student (student_id, last_degree) values (13, 'BS Data Science');
-insert into student (student_id, last_degree) values (14, 'BS Machine Learning ');
-insert into student (student_id, last_degree) values (15, 'BS Data Science');
-insert into student (student_id, last_degree) values (16, 'BS Computer Science');
-insert into student (student_id, last_degree) values (17, 'BS Data Science');
-insert into student (student_id, last_degree) values (18, 'BS Machine Learning ');
-insert into student (student_id, last_degree) values (19, 'BS Data Science');
-insert into student (student_id, last_degree) values (20, 'BS Data Science');
-insert into student (student_id, last_degree) values (21, ' BS Economy');
-insert into student (student_id, last_degree) values (22, 'BS Data Science');
-insert into student (student_id, last_degree) values (23, ' BS Economy');
-insert into student (student_id, last_degree) values (24, ' BS Economy');
-insert into student (student_id, last_degree) values (25, 'BS Data Science');
+insert into student (student_id, last_degree, ssN) values (1, ' BS Economy', '686-02-9586');
+insert into student (student_id, last_degree, ssN) values (2, 'BS Data Science', '188-64-0327');
+insert into student (student_id, last_degree, ssN) values (3, ' BS Economy', '329-98-1373');
+insert into student (student_id, last_degree, ssN) values (4, ' BS Economy', '656-54-9469');
+insert into student (student_id, last_degree, ssN) values (5, 'BS Data Science','331-95-7368');
+insert into student (student_id, last_degree, ssN) values (6, 'BS Data Science','659-54-4518');
+insert into student (student_id, last_degree, ssN) values (7, 'BS Data Science','661-01-5380');
+insert into student (student_id, last_degree, ssN) values (8, 'BS Machine Learning ','188-74-2621');
 
 
 CREATE TABLE categories(
@@ -177,12 +164,12 @@ CREATE TABLE categories(
     PRIMARY KEY(cat_ID)
 );
 
-insert into categories (cat_ID, cat_Name, cat_Types) values (1, ' Computer', 'BS Data Science');
-insert into categories (cat_ID, cat_Name, cat_Types) values (2, ' Tech ', 'BS Data Science');
-insert into categories (cat_ID, cat_Name, cat_Types) values (3, ' Accounting ', 'BS Data Science');
-insert into categories (cat_ID, cat_Name, cat_Types) values (4, 'Programming ', 'BS Data Science');
-insert into categories (cat_ID, cat_Name, cat_Types) values (5, ' Finance', 'BS Machine Learning ');
-insert into categories (cat_ID, cat_Name, cat_Types) values (6, ' Web ', 'BS Data Science');
+insert into categories (cat_ID, cat_Name, cat_Types) values (1, ' Computer', 'Data Science');
+insert into categories (cat_ID, cat_Name, cat_Types) values (2, ' Tech ', 'Data Science');
+insert into categories (cat_ID, cat_Name, cat_Types) values (3, ' Accounting ', 'Stocks');
+insert into categories (cat_ID, cat_Name, cat_Types) values (4, 'Programming ', 'Data Science');
+insert into categories (cat_ID, cat_Name, cat_Types) values (5, ' Finance', 'Banking');
+insert into categories (cat_ID, cat_Name, cat_Types) values (6, ' Web ', 'Front End');
 
 
 
@@ -220,11 +207,11 @@ CREATE TABLE feedback(
     FOREIGN KEY (student_id) REFERENCES student(student_id)
 );
 
-insert into feedback (feedback_id, ratings, feedback_content, student_id, course_id) values (1, 4, 'Laceration with foreign body, right knee, subs encntr', 1, 1);
-insert into feedback (feedback_id, ratings, feedback_content, student_id, course_id) values (2, 4, 'Other stimulant dependence, in remission', 2, 2);
-insert into feedback (feedback_id, ratings, feedback_content, student_id, course_id) values (3, 5, 'Fracture of alveolus of left mandible, 7thB', 3, 3);
-insert into feedback (feedback_id, ratings, feedback_content, student_id, course_id) values (4, 4, 'Nondisp midcervical fx r femr, 7thH', 4, 4);
-insert into feedback (feedback_id, ratings, feedback_content, student_id, course_id) values (5, 5, 'Displ oblique fx shaft of l fibula, init for opn fx type I/2', 5, 5);
+insert into feedback (feedback_id, ratings, feedback_content, student_id, course_id) values (1, 4, 'Amazing Course recomment it to everyone', 1, 1);
+insert into feedback (feedback_id, ratings, feedback_content, student_id, course_id) values (2, 4, 'good course but hard to follow', 2, 2);
+insert into feedback (feedback_id, ratings, feedback_content, student_id, course_id) values (3, 5, 'Best course I have taken highly recommend', 3, 3);
+insert into feedback (feedback_id, ratings, feedback_content, student_id, course_id) values (4, 4, 'Good but could have been better with exercises', 4, 4);
+insert into feedback (feedback_id, ratings, feedback_content, student_id, course_id) values (5, 5, 'Instructor was amazing and knew the details of the course', 5, 5);
 
 
 
@@ -240,11 +227,11 @@ CREATE TABLE query(
 	FOREIGN KEY (lesson_id) REFERENCES lesson(lesson_id)
 );
 
-insert into query (query_id, query_title, query_desc, student_id, lesson_id, date_posted) values (1, 'What is RDMS', 'Diab with severe nonp rtnop without macular edema, left eye', 5, 1, '2020-07-05');
-insert into query (query_id, query_title, query_desc, student_id, lesson_id, date_posted) values (2, 'How to calculate z-score', 'Chronic embolism and thrombosis of left iliac vein', 7, 2, '2021-09-17');
-insert into query (query_id, query_title, query_desc, student_id, lesson_id, date_posted) values (3, 'Binomial Distribution', 'Other injury of unspecified intra-abdominal organ, sequela', 3, 3, '2020-04-20');
-insert into query (query_id, query_title, query_desc, student_id, lesson_id, date_posted) values (4, 'Javascript Regular Expression', 'Nondisp fx of med malleolus of l tibia, 7thD', 4, 4, '2020-03-28');
-insert into query (query_id, query_title, query_desc, student_id, lesson_id, date_posted) values (5, 'Association Rule with R', 'Unspecified superficial injury of nose, initial encounter', 1, 5, '2021-03-23');
+insert into query (query_id, query_title, query_desc, student_id, lesson_id, date_posted) values (1, 'What is RDMS', 'Plz explain rdbms to me, as im a new student', 5, 1, '2020-07-05');
+insert into query (query_id, query_title, query_desc, student_id, lesson_id, date_posted) values (2, 'How to calculate z-score', 'When it is necessary to use ztest over t-test?', 7, 2, '2021-09-17');
+insert into query (query_id, query_title, query_desc, student_id, lesson_id, date_posted) values (3, 'Binomial Distribution', 'How binomial distribution is different fro poisson distribution?', 3, 3, '2020-04-20');
+insert into query (query_id, query_title, query_desc, student_id, lesson_id, date_posted) values (4, 'Javascript Regular Expression', 'Is regular expression same across all languages or does it depend on interpreting phasae of compiler?', 4, 4, '2020-03-28');
+insert into query (query_id, query_title, query_desc, student_id, lesson_id, date_posted) values (5, 'Association Rule with R', 'Please explain Apriori Algorithm with a bit more depht?', 1, 5, '2021-03-23');
 
 
 
@@ -258,11 +245,11 @@ CREATE TABLE answer(
     FOREIGN KEY (query_id) REFERENCES query(query_id) 
 );
 
-insert into answer (answer_id, answer_desc, answered, query_id, date_posted) values (1, 'Unsp superficial injury of left ring finger, subs encntr', true, 1, '2020-12-23');
-insert into answer (answer_id, answer_desc, answered, query_id, date_posted) values (2, 'Unspecified open wound, unspecified foot, initial encounter', true, 2, '2020-03-16');
-insert into answer (answer_id, answer_desc, answered, query_id, date_posted) values (3, 'Oth fx head/neck of right femur, init for opn fx type I/2', true, 3, '2020-07-09');
-insert into answer (answer_id, answer_desc, answered, query_id, date_posted) values (4, 'Hit by falling object due to accident to merchant ship', true, 4, '2020-10-14');
-insert into answer (answer_id, answer_desc, answered, query_id, date_posted) values (5, 'Concussion without loss of consciousness, subs encntr', true, 5, '2021-03-18');
+insert into answer (answer_id, answer_desc, answered, query_id, date_posted) values (1, 'Great question I would explain this in an upcoming video', true, 1, '2020-12-23');
+insert into answer (answer_id, answer_desc, answered, query_id, date_posted) values (2, 'The answer is already given in the video lecture', true, 2, '2020-03-16');
+insert into answer (answer_id, answer_desc, answered, query_id, date_posted) values (3, 'Kindly visit the video 10th of my course', true, 3, '2020-07-09');
+insert into answer (answer_id, answer_desc, answered, query_id, date_posted) values (4, 'This topic is a bit off related to the course', false, 4, '2020-10-14');
+insert into answer (answer_id, answer_desc, answered, query_id, date_posted) values (5, 'This will be explained in a later section', true, 5, '2021-03-18');
 
 
 DROP TABLE IF EXISTS quiz;
@@ -278,16 +265,16 @@ CREATE TABLE quiz(
 
 );
 
-insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (1, ' Stats', 'Bent bone of unsp ulna, subs for clos fx w nonunion', '484-86-0885', 1);
-insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (2, ' Data Science', 'Malignant neoplasm of stomach, unspecified', '423-68-7672', 2);
-insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (3, ' Stats', 'Corrosion of unspecified degree of left lower leg', '460-62-2268', 3);
-insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (4, ' Regex', 'Stimulant laxatives', '514-25-9498', 4);
-insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (5, ' Finance ', 'Laceration of blood vessels at ank/ft level, unsp leg, subs', '532-79-6727', 5);
-insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (6, ' Accounting ', 'Partial traumatic amputation of left foot at ankle level', '581-96-0240', 6);
-insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (7, ' Machine Learning', 'Athscl nonaut bio bypass of left leg w ulcer oth prt foot', '613-20-6594', 7);
-insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (8, ' Stats', 'Displ commnt fx l patella, 7thM', '622-60-7296', 8);
+insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (1, ' Stats', 'Bent bone of unsp ulna, subs for clos fx w nonunion', '824-52-9404', 1);
+insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (2, ' Data Science', 'Malignant neoplasm of stomach, unspecified', '460-62-2268', 2);
+insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (3, ' Stats', 'Corrosion of unspecified degree of left lower leg', '824-52-9404', 3);
+insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (4, ' Regex', 'Stimulant laxatives', '581-96-0240', 4);
+insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (5, ' Finance ', 'Laceration of blood vessels at ank/ft level, unsp leg, subs', '460-62-2268', 5);
+insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (6, ' Accounting ', 'Partial traumatic amputation of left foot at ankle level', '714-07-4407', 6);
+insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (7, ' Machine Learning', 'Athscl nonaut bio bypass of left leg w ulcer oth prt foot', '714-07-4407', 7);
+insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (8, ' Stats', 'Displ commnt fx l patella, 7thM', '532-79-6727', 8);
 insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (9, ' Machine Learning ', 'Partial loss of teeth due to periodontal diseases, class II', '714-07-4407', 9);
-insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (10, ' Stats', 'Nondisp fx of olecran pro w/o intartic extn l ulna, 7thD', '824-52-9404', 10);
+insert into quiz (quiz_id, quiz_title, quiz_desc, quiz_teacher, course_id) values (10, ' Stats', 'Nondisp fx of olecran pro w/o intartic extn l ulna, 7thD', '532-79-6727', 10);
 
 
 
@@ -315,16 +302,16 @@ CREATE TABLE invoice(
     FOREIGN KEY(student_id) REFERENCES student(student_id)
 );
 
-insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (1, ' Paypal', 'Poisoning by sulfonamides, assault, subsequent encounter', '2021-01-12', 4.29, 1);
-insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (2, ' Paypal', 'Oth fx lower end of left femur, init for opn fx type 3A/B/C', '2021-12-22', 8.16, 2);
-insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (3, ' Wire Transfer ', 'Disorders of propionate metabolism', '2021-11-05', 2.41, 3);
-insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (4, ' Paypal', 'Sprain of metacarpophalangeal joint of right ring finger', '2021-02-20', 0.10, 4);
-insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (5, 'Credit Card ', 'Fracture of body of calcaneus', '2021-08-05', 2.65, 5);
-insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (6, ' Wire Transfer ', 'Strain extensor musc/fasc/tend l idx fngr at forarm lv, init', '2020-12-30', 6.48, 6);
-insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (7, ' Paypal', 'Unsp intracap fx r femr, subs for opn fx type I/2 w malunion', '2021-09-24', 7.17, 7);
-insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (8, ' Wire Transfer ', 'Other reactive arthropathies, hip', '2021-08-13', 7.82, 8);
-insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (9, ' Paypal', 'Other skateboard accident', '2021-07-08', 5.81, 9);
-insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (10, ' Cash ', 'Unspecified astigmatism, right eye', '2021-02-28', 8.65, 10);
+insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (1, ' Paypal', 'New order of the course', '2021-01-12', 4.29, 1);
+insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (2, ' Paypal', 'course purchase of type 3A/B/C', '2021-12-22', 8.16, 2);
+insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (3, ' Wire Transfer ', 'Disorders Course purchase', '2021-11-05', 2.41, 3);
+insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (4, ' Paypal', 'Ordering new programming course', '2021-02-20', 0.10, 4);
+insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (5, 'Credit Card ', 'Stocks and various courses', '2021-08-05', 2.65, 5);
+insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (6, ' Wire Transfer ', 'New course', '2020-12-30', 6.48, 6);
+insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (7, ' Paypal', 'Some new courses', '2021-09-24', 7.17, 7);
+insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (8, ' Wire Transfer ', 'Buying new course', '2021-08-13', 7.82, 8);
+insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (9, ' Paypal', '3 course purchases', '2021-07-08', 5.81, 4);
+insert into invoice (invoice_id, payment_mode, invoice_description, invoice_date, total_price, student_id) values (10, ' Cash ', 'Unspecified courses', '2021-02-28', 8.65, 1);
 
 DROP TABLE course_purchase;
 CREATE TABLE course_purchase(
@@ -348,21 +335,21 @@ insert into course_purchase (course_purchase_id, paid_amount, course_id, student
 insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (6, 1.17, 6, 6, 6);
 insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (7, 7.12, 7, 7, 7);
 insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (8, 9.12, 8, 8, 8);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (9, 9.53, 9, 9, 9);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (10, 2.98, 10, 10, 1);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (11, 1.61, 1, 11, 1);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (12, 4.19, 2, 12, 2);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (13, 7.17, 3, 13, 3);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (14, 8.53, 4, 14, 4);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (15, 2.44, 5, 15, 5);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (16, 8.73, 6, 16, 6);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (17, 1.09, 7, 17, 7);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (18, 1.01, 8, 18, 8);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (19, 2.49, 9, 19, 9);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (20, 5.18, 10, 20, 2);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (21, 8.48, 2, 21, 1);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (22, 9.61, 2, 22, 2);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (23, 7.83, 3, 23, 3);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (24, 0.96, 1, 24, 4);
-insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (25, 5.17, 5, 25, 5);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (9, 9.53, 9, 1, 9);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (10, 2.98, 10, 2, 1);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (11, 1.61, 1, 3, 1);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (12, 4.19, 2, 4, 2);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (13, 7.17, 3, 5, 3);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (14, 8.53, 4, 6, 4);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (15, 2.44, 5, 7, 5);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (16, 8.73, 6, 8, 6);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (17, 1.09, 7, 1, 7);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (18, 1.01, 8, 2, 8);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (19, 2.49, 9, 3, 9);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (20, 5.18, 10, 4, 2);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (21, 8.48, 2, 5, 1);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (22, 9.61, 2, 6, 2);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (23, 7.83, 3, 7, 3);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (24, 0.96, 1, 8, 4);
+insert into course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (25, 5.17, 5, 1, 5);
 
