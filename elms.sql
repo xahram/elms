@@ -22,11 +22,11 @@ CREATE TABLE user(
 	 PRIMARY KEY(ssN)
 );
 
-INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, country, date_of_birth, status) values ('456-47-0699', 'Lucinda', 'Shearn', 'lshearn0@lulu.com', 'Zro7yFUFC7Jd', '0990 Lake View Lane', 'Fremont',  '99709', 'United States', '2014-05-20', false);
-INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, country, date_of_birth, status) values ('279-99-0163', 'Marcelline', 'Keuning', 'mkeuning1@wsj.com', 'NfxRfD', '23652 Village Green Crossing', 'Porter', 'EC1V', 'United Kingdom', '1970-01-27', false);
-INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, country, date_of_birth, status) values ('184-97-1485', 'Annalee', 'Leyrroyd', 'aleyrroyd2@cyberchimps.com', 'AlgKvcrbdsN', '593 Hovde Alley', 'Steensland', '29215', 'United States', '1953-12-04', true);
-INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('335-66-1833', 'Alla', 'Dagnall', 'adagnall3@china.com.cn', 'cDdosW5', '05 Northview Crossing', 'Carioca', '20436', 'United States', '2011-10-05', true);
-INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('715-19-1912', 'Tremaine', 'Abazi', 'tabazi4@taobao.com', 'sreaUV', '00 Melody Junction', 'Nancy', '20067', 'United States', '1972-06-11', false);
+INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('456-47-0699', 'Lucinda', 'Shearn', 'lshearn0@lulu.com', 'Zro7yFUFC7Jd', '0990 Lake View Lane', 'Fremont',  '99709', "LA",'United States', '2014-05-20', false);
+INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('279-99-0163', 'Marcelline', 'Keuning', 'mkeuning1@wsj.com', 'NfxRfD', '23652 Village Green Crossing', 'Porter', 'EC1V', "LO",'United Kingdom', '1970-01-27', false);
+INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('184-97-1485', 'Annalee', 'Leyrroyd', 'aleyrroyd2@cyberchimps.com', 'AlgKvcrbdsN', '593 Hovde Alley', 'Steensland', '29215', "AR",'United States', '1953-12-04', true);
+INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('335-66-1833', 'Alla', 'Dagnall', 'adagnall3@china.com.cn', 'cDdosW5', '05 Northview Crossing', 'Carioca', '20436', "LA",'United States', '2011-10-05', true);
+INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('715-19-1912', 'Tremaine', 'Abazi', 'tabazi4@taobao.com', 'sreaUV', '00 Melody Junction', 'Nancy', '20067', "NYC",'United States', '1972-06-11', false);
 INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('358-60-5424', 'Sherline', 'Mapam', 'smapam5@google.com', 'LHcnViDaT', '558 Killdeer Way', 'Fisk', '73167', "LA",'United States', '1980-01-04', true);
 INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('686-02-9586', 'Barbara-anne', 'Helks', 'bhelks6@mysql.com', '1QVxiyAqe5', '89434 Scofield Crossing', 'Marquette', 'RH5', "WM",'United Kingdom', '1959-05-04', false);
 INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('188-64-0327', 'Gus', 'Nestor', 'gnestor7@ebay.co.uk', 'RMRdmo1Du', '382 Bellgrove Terrace', 'Mcguire', '87140', "NYC",'United States', '2002-05-09', false);
@@ -68,8 +68,6 @@ CREATE TABLE course(
     PRIMARY KEY(course_id)
 );
 
-ALTER TABLE  course
-ADD FOREIGN KEY (course_lesson_id) REFERENCES course_lesson(course_lesson_id);
 
 INSERT INTO course (course_id, title, coursePrice, description, publish_date, last_update,course_lesson_id) values (1, 'MERN Stack Developer Course', 1.66, 'Revision of Spacer in Right Hip Joint, Open Approach', '2020-08-23', '2021-11-25' , 1);
 INSERT INTO course (course_id, title, coursePrice, description, publish_date, last_update, course_lesson_id) values (2, 'Frontend Developer Course', 4.13, 'Division of Right Humeral Head, Percutaneous Approach', '2019-09-02', '2021-10-27', 2);
@@ -92,8 +90,6 @@ CREATE TABLE lesson(
     PRIMARY KEY(lesson_id)
 );
 
-ALTER TABLE  lesson
-ADD FOREIGN KEY (course_lesson_id) REFERENCES course_lesson(course_lesson_id);
 
 
 
@@ -399,3 +395,8 @@ INSERT INTO course_purchase (course_purchase_id, paid_amount, course_id, student
 INSERT INTO course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (24, 0.96, 1, 8, 4);
 INSERT INTO course_purchase (course_purchase_id, paid_amount, course_id, student_id, invoice_id) values (25, 5.17, 5, 1, 5);
 
+ALTER TABLE  course
+ADD FOREIGN KEY (course_lesson_id) REFERENCES course_lesson(course_lesson_id);
+
+ALTER TABLE  lesson
+ADD FOREIGN KEY (course_lesson_id) REFERENCES course_lesson(course_lesson_id);
