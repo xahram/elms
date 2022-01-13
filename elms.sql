@@ -20,6 +20,8 @@ CREATE TABLE user(
      `password` varchar(255) NOT NULL,
      `date_of_birth` DATE,
 	 PRIMARY KEY(ssN)
+     
+     
 );
 
 INSERT INTO user (ssN, first_name, last_name, email, password, address, street, postcode, state, country, date_of_birth, status) values ('456-47-0699', 'Lucinda', 'Shearn', 'lshearn0@lulu.com', 'Zro7yFUFC7Jd', '0990 Lake View Lane', 'Fremont',  '99709', "LA",'United States', '2014-05-20', false);
@@ -66,6 +68,7 @@ CREATE TABLE course(
     `last_update` DATE NOT NULL,  
     course_lesson_id INT NOT NULL,
     PRIMARY KEY(course_id)
+    
 );
 
 
@@ -400,3 +403,58 @@ ADD FOREIGN KEY (course_lesson_id) REFERENCES course_lesson(course_lesson_id);
 
 ALTER TABLE  lesson
 ADD FOREIGN KEY (course_lesson_id) REFERENCES course_lesson(course_lesson_id);
+
+
+CREATE TABLE sub_categories(
+	subcat_ID INT NOT NULL UNIQUE,
+    cat_Types VARCHAR(255)
+);
+INSERT INTO sub_categories (subcat_ID, cat_Types) values (1, "Data Science");
+INSERT INTO sub_categories (subcat_ID, cat_Types) values (2, "Stocks");
+INSERT INTO sub_categories (subcat_ID, cat_Types) values (3, "Banking");
+INSERT INTO sub_categories (subcat_ID, cat_Types) values (4, "Front End");
+
+
+CREATE TABLE cat_subtype(
+	cat_subtype INT NOT NULL UNIQUE,
+	subcat_ID INT NOT NULL,
+    cat_ID INT NOT NULL,
+    PRIMARY KEY (cat_subtype)
+);
+INSERT INTO cat_subtype (cat_subtype, subcat_ID, cat_ID) values (1, 1, 1);
+INSERT INTO cat_subtype (cat_subtype, subcat_ID, cat_ID) values (2, 1, 2);
+INSERT INTO cat_subtype (cat_subtype, subcat_ID, cat_ID) values (3, 2, 3);
+INSERT INTO cat_subtype (cat_subtype, subcat_ID, cat_ID) values (4, 1, 4);
+INSERT INTO cat_subtype (cat_subtype, subcat_ID, cat_ID) values (5, 3, 5);
+INSERT INTO cat_subtype (cat_subtype, subcat_ID, cat_ID) values (6, 4, 6);
+
+
+ALTER TABLE cat_subtype 
+ADD FOREIGN KEY (subcat_ID) REFERENCES sub_categories(subcat_ID);
+ALTER TABLE cat_subtype 
+ADD FOREIGN KEY (cat_ID) REFERENCES categories(cat_ID);
+
+ALTER TABLE categories
+DROP COLUMN cat_Types;
+
+
+
+-- CHECK CONSTRAINTS FOR OUR REQUIREMENTS
+ALTER TABLE course
+ADD CONSTRAINT COURSE_PUBLISH_CHECK CHECK (publish_date > "2019-01-01");
+
+ALTER TABLE course
+ADD CONSTRAINT COURSE_LAST_UPDATE_CHECK CHECK (last_update > publish_date);
+
+
+ALTER TABLE feedback
+ADD CONSTRAINT FEEDBACK_RATING_CHECK CHECK (ratings <= 5 AND ratings >= 0);
+
+ALTER TABLE course
+ADD CONSTRAINT COURSE_PRICE_CHECK CHECK (coursePrice > -1 AND coursePrice < 30);
+
+ALTER TABLE user
+ADD CONSTRAINT USER_DATE_OF_BIRTH_CHECK CHECK (date_of_birth > "1950-01-01");
+
+ALTER TABLE admin
+ADD CONSTRAINT ADMIN_ACCESS_CHECK CHECK (ACCESS = "SUPERADMIN" OR ACCESS = "ADMIN");
